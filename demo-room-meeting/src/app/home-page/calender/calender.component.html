@@ -1,0 +1,121 @@
+<div class="calendar main-content pb-20">
+    <div class="flex justify-center text-black text-2xl">
+        Calendar
+        <!-- <a (click)="showCreatingMethod()">
+            <mat-icon style="color: green; vertical-align: middle;">add_circle</mat-icon>
+        </a> -->
+    </div>
+    <full-calendar [options]='calendarOptions'></full-calendar>
+</div>
+
+<div *ngIf="showCreatingForm" class="overlay">
+    <div class="form-container">
+        <h3 class="text-lg font-semibold mb-2">Booking Room</h3>
+        <div class="space-y-4">
+            <div>
+                <label for="class" class="block">Choose Room:</label>
+                <select [(ngModel)]="history.roomId" id="language" name="language"
+                    class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:border-blue-500">
+                    <option value="" disabled selected hidden>Choose Room</option>
+                    <option *ngFor="let room of rooms" [value]="room.id">{{room.name}} -
+                        Capacity: {{room.capacity}} - Description: {{room.description}}</option>
+                </select>
+            </div>
+            <div>
+                <label for="email" class="block">Description</label>
+                <input type="text" [(ngModel)]="history.description" class="w-full border rounded p-2"
+                    style="width: 320px;">
+            </div>
+            <div>
+                <label for="email" class="block">Date</label>
+                <input type="date" [(ngModel)]="history.date" id="datePicker"
+                    class="border border-gray-300 px-3 py-1 w-1/2 rounded transition duration-300 ease-in-out hover:border-blue-500">
+            </div>
+            <div>
+                <label for="email" class="block">Start Time</label>
+                <input type="time" [(ngModel)]="history.startTime" class="w-full border rounded p-2"
+                    style="width: 320px;">
+            </div>
+            <div>
+                <label for="email" class="block">End Time</label>
+                <input type="time" [(ngModel)]="history.endTime" class="w-full border rounded p-2"
+                    style="width: 320px;">
+            </div>
+            <div class="flex justify-end">
+                <button (click)="bookingRoom()" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
+                <button (click)="cancel()" type="button"
+                    class="bg-gray-300 text-gray-700 px-4 py-2 rounded ml-2">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showDetail" class="overlay">
+    <div class="form-container1">
+        <div class="flex bg-gray-300 px-2 py-1 rounded">
+            <div class="w-1/2">
+                <h3 class="text-xl font-semibold mb-2">Booking Room</h3>
+            </div>
+            <div class="w-1/2 flex justify-end">
+                <a *ngIf="checkUser(detailBooking)" (click)="showEditingMethod(detailBooking.id)"><mat-icon
+                        style="color: blue;">edit</mat-icon></a>
+                <a *ngIf="checkUser(detailBooking)" (click)="showModal(detailBooking.id)"><mat-icon
+                        style="color: red;">delete</mat-icon></a>
+                <a (click)="cancel()"><mat-icon style="color: black;">close</mat-icon></a>
+            </div>
+        </div>
+        <div class="space-y-4 mt-4 pl-2">
+            <p><span class="font-bold">Username:</span> {{detailBooking.user.username}}</p>
+            <p><span class="font-bold">RoomName: </span>{{detailBooking.room.name}}</p>
+            <p><span class="font-bold">Description: </span>{{detailBooking.description}}</p>
+            <p><span class="font-bold">StartTime:</span> {{detailBooking.startTime}}</p>
+            <p><span class="font-bold">EndTime:</span> {{detailBooking.endTime}}</p>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showEditingForm" class="overlay">
+    <div class="form-container">
+        <h3 class="text-lg font-semibold mb-2">Booking Room</h3>
+        <div class="space-y-4">
+            <div>
+                <label for="class" class="block">Choose Room:</label>
+                <select [(ngModel)]="history.roomId" id="language" name="language"
+                    class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:border-blue-500">
+                    <option value="" disabled selected hidden>Choose Room</option>
+                    <option *ngFor="let room of rooms" [value]="room.id">{{room.name}} -
+                        Capacity: {{room.capacity}} - Description: {{room.description}}</option>
+                </select>
+            </div>
+            <div>
+                <label for="email" class="block">Description</label>
+                <input type="text" [(ngModel)]="history.description" class="w-full border rounded p-2"
+                    style="width: 320px;">
+            </div>
+            <div>
+                <label for="email" class="block">Date</label>
+                <input type="date" [(ngModel)]="history.date" id="datePicker"
+                    class="border border-gray-300 px-3 py-1 w-1/2 rounded transition duration-300 ease-in-out hover:border-blue-500">
+            </div>
+            <div>
+                <label for="email" class="block">Start Time</label>
+                <input type="time" [(ngModel)]="history.startTime" class="w-full border rounded p-2"
+                    style="width: 320px;">
+            </div>
+            <div>
+                <label for="email" class="block">End Time</label>
+                <input type="time" [(ngModel)]="history.endTime" class="w-full border rounded p-2"
+                    style="width: 320px;">
+            </div>
+            <div class="flex justify-end">
+                <button (click)="editBookingRoom()" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
+                <button (click)="cancel()" type="button"
+                    class="bg-gray-300 text-gray-700 px-4 py-2 rounded ml-2">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Modal Title" (nzOnCancel)="cancel()" (nzOnOk)="handleOk()">
+    <p *nzModalContent>Are you really deleting this booking ?</p>
+</nz-modal>

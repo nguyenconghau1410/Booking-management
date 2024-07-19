@@ -1,0 +1,29 @@
+<div class="flex items-center justify-center">
+    <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+        <div class="bg-blue-600 p-6 rounded-lg shadow-lg">
+            <div class="flex items-center justify-center mb-4">
+                <h1 class="text-2xl font-semibold mb-2 text-white">Login</h1>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <input type="text" [(ngModel)]="username" placeholder="Username..." id="tag" name="name"
+                        class="w-full border rounded p-1" style="width: 320px;">
+                </div>
+                <div>
+                    <input type="password" [(ngModel)]="password" placeholder="Password..." id="class" name="classname"
+                        class="w-full border rounded p-1" style="width: 320px;">
+                </div>
+                <div class="flex items-center justify-center text-lg text-white">
+                    Forgot password ?
+                </div>
+                <div class="flex justify-center items-center">
+                    <button (click)="login()" class="bg-green-500 border-2 text-white px-14 py-2 rounded">Login</button>
+                </div>
+                <div class="flex items-center justify-center text-lg">
+                    <span class="text-white">Don't have an account? <a class="text-black" href="/register">Register
+                            Here</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
